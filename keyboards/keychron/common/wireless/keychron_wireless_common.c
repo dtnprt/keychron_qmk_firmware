@@ -77,6 +77,37 @@ bool process_record_keychron_wireless(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+void keychron_wireless_show_bat_level(void){
+
+
+    uint8_t r, g, b;
+    uint8_t bat_percentage = battery_get_percentage();
+
+    uint8_t  bat_lvl_led_list[10] = BAT_LEVEL_LED_LIST;
+
+        for (uint8_t i = 0; i < 10; i++) {
+        rgb_matrix_set_color(bat_lvl_led_list[i], 0, 0, 0);
+    }
+
+
+    if (bat_percentage < 30) {
+        r = 255; b = g = 0;
+    }
+    else if (bat_percentage < 70) {
+        r = g = 255; b = 0;
+    }
+    else {
+        r = b = 0; g = 255;
+    }
+
+
+    for (uint8_t i = 0; i < bat_percentage / 10; i++) {
+        rgb_matrix_set_color(bat_lvl_led_list[i], r, g, b);
+    }
+
+
+}
+
 void lkbt51_param_init(void) {
     /* Set bluetooth device name */
     lkbt51_set_local_name(PRODUCT);

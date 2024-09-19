@@ -85,6 +85,10 @@ static uint32_t rtc_time                  = 0;
 #if defined(LED_MATRIX_ENABLE) || defined(RGB_MATRIX_ENABLE)
 backlight_state_t original_backlight_state;
 
+#    ifdef BAT_LEVEL_LED_LIST
+static uint8_t bat_level_led_list[10] = BAT_LEVEL_LED_LIST;
+#    endif
+
 #    ifdef BT_HOST_LED_MATRIX_LIST
 static uint8_t bt_host_led_matrix_list[BT_HOST_DEVICES_COUNT] = BT_HOST_LED_MATRIX_LIST;
 #    endif
@@ -139,7 +143,7 @@ static pin_t p24g_led_pin_list[P24G_HOST_DEVICES_COUNT] = P24G_HOST_LED_PIN_LIST
 #    define SET_LED_OFF(idx) rgb_matrix_set_color(idx, 0, 0, 0)
 #    define SET_LED_ON(idx) rgb_matrix_set_color(idx, 255, 255, 255)
 #    define SET_LED_BT(idx) rgb_matrix_set_color(idx, 0, 0, 255)
-#    define SET_LED_P24G(idx) rgb_matrix_set_color(idx, 0, 255, 0)
+#    define SET_LED_P24G(idx) rgb_matrix_set_color(idx, 255, 0, 255)
 #    define SET_LED_LOW_BAT(idx) rgb_matrix_set_color(idx, 255, 0, 0)
 #    define LED_DRIVER_IS_ENABLED rgb_matrix_is_enabled
 #    define LED_DRIVER_EECONFIG_RELOAD()                                                       \
@@ -405,6 +409,7 @@ void indicator_set(wt_state_t state, uint8_t host_index) {
         case WT_PARING:
             INDICATOR_SET(pairing);
             indicator_config.value = (indicator_config.type == INDICATOR_NONE) ? 0 : LED_ON | host_index;
+
             indicator_timer_cb((void *)&indicator_config.type);
 #if defined(LED_MATRIX_ENABLE) || defined(RGB_MATRIX_ENABLE)
             indicator_set_backlit_timeout(DECIDE_TIME(DISCONNECTED_BACKLIGHT_DISABLE_TIMEOUT * 1000, indicator_config.duration));
@@ -627,6 +632,8 @@ bool LED_INDICATORS_KB(void) {
         if (indicator_config.value) {
             uint8_t host_index = indicator_config.value & HOST_INDEX_MASK;
 
+
+
             if (indicator_config.highlight) {
                 SET_ALL_LED_OFF();
             } else if (last_host_index != host_index) {
@@ -636,8 +643,26 @@ bool LED_INDICATORS_KB(void) {
                     SET_LED_OFF(bt_host_led_matrix_list[host_index - 1]);
                 last_host_index = host_index;
             }
+            // Boot Battery indicator here!
+            uint8_t r, g, b;
+            uint8_t bat_percentage = battery_get_percentage();
+
+            if (bat_percentage < 30) {
+                r = 255; b = g = 0;
+            }
+            else if (bat_percentage < 70) {
+                r = g = 255; b = 0;
+            }
+            else {
+                r = b = 0; g = 255;
+            }
+
+            for (uint8_t i = 0; i < bat_percentage / 10; i++)
+                rgb_matrix_set_color(bat_level_led_list[i], r, g, b);
+            ///
 
             if (indicator_config.value & LED_ON) {
+
 #    ifdef P2P4G_HOST_LED_MATRIX_LIST
                 if (indicator_config.value & HOST_P2P4G)
                     SET_LED_P24G(p2p4g_host_led_matrix_list[host_index - 1]);

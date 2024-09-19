@@ -699,6 +699,7 @@ bool LED_INDICATORS_KB(void) {
 #    endif
                     SET_LED_BT(bt_host_led_matrix_list[host_index - 1]);
 
+
             } else {
 #    ifdef P24G_INDICATION_LED_INDEX
                 if (indicator_config.value & P24G_IND_MASK)

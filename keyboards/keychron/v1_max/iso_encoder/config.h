@@ -52,8 +52,8 @@
 #    define P2P4G_HOST_LED_MATRIX_LIST \
         { 18 }
 
-#    define BAT_LEVEL_LED_LIST \
-        { 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 }
+/*#    define BAT_LEVEL_LED_LIST { 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 } */
+#    define BAT_LEVEL_LED_LIST { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }
 
 #    define CAPS_LOCK_INDEX 43
 #    define LOW_BAT_IND_INDEX \

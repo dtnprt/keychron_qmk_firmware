@@ -32,5 +32,6 @@ bool wireless_tasks(void) {
      * to switch to wireless after start-up when usb is not connected
      */
     if (get_transport() == TRANSPORT_USB) usb_remote_wakeup();
+
     return true;
 }

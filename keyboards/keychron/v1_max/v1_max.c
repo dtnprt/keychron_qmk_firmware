@@ -45,6 +45,7 @@ bool dip_switch_update_kb(uint8_t index, bool active) {
 }
 #endif
 
+
 void keyboard_post_init_kb(void) {
 #ifdef LK_WIRELESS_ENABLE
     palSetLineMode(P2P4_MODE_SELECT_PIN, PAL_MODE_INPUT);
@@ -52,16 +53,23 @@ void keyboard_post_init_kb(void) {
 
     writePin(BAT_LOW_LED_PIN, BAT_LOW_LED_PIN_ON_STATE);
 
+    //keychron_wireless_show_bat_level();
+
     lkbt51_init(false);
     wireless_init();
+
+
 #endif
 
     power_on_indicator_timer_buffer = timer_read32();
+
 #ifdef ENCODER_ENABLE
     encoder_cb_init();
 #endif
 
+
     keyboard_post_init_user();
+
 }
 
 bool keychron_task_kb(void) {
@@ -83,7 +91,11 @@ bool keychron_task_kb(void) {
 }
 
 #ifdef LK_WIRELESS_ENABLE
+
 bool lpm_is_kb_idle(void) {
     return power_on_indicator_timer_buffer == 0 && !factory_reset_indicating();
 }
+
 #endif
+
+

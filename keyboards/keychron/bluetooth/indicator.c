@@ -521,7 +521,9 @@ bool LED_INDICATORS_KB(void) {
         }
 
 #    if (defined(LED_MATRIX_ENABLE) || defined(RGB_MATRIX_ENABLE)) && defined(LOW_BAT_IND_INDEX)
-        if (battery_is_empty()) SET_ALL_LED_OFF();
+        if (battery_is_empty())
+            SET_ALL_LED_OFF();
+
         if (bat_low_ind_state && (bat_low_ind_state & 0x0F) <= LOW_BAT_LED_BLINK_TIMES) {
             if (bat_low_ind_state & 0x80)
                 SET_LED_LOW_BAT(LOW_BAT_IND_INDEX);
@@ -546,6 +548,7 @@ bool LED_INDICATORS_KB(void) {
 
             if (indicator_config.value & 0x80) {
                 SET_LED_BT(host_led_matrix_list[host_index - 1]);
+
             } else {
                 SET_LED_OFF(host_led_matrix_list[host_index - 1]);
             }

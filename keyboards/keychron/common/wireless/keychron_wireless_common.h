@@ -24,3 +24,4 @@ void lkbt51_param_init(void);
 
 bool process_record_keychron_wireless(uint16_t keycode, keyrecord_t *record);
 void keychron_wireless_common_task(void);
+void keychron_wireless_show_bat_level(void);

@@ -51,10 +51,18 @@ void bat_level_animiation_start(uint8_t percentage) {
     /* Turn on backlight mode for indicator */
     indicator_enable();
 
+    /*
     animation_state          = BAT_LVL_ANI_GROWING;
+    cur_percentage           = 0;
+    */
+
+    animation_state          = BAT_LVL_ANI_BLINK_OFF; // disable growing animation
+    cur_percentage           = percentage;
+
+
     bat_percentage           = percentage;
     bat_lvl_ani_timer_buffer = timer_read32();
-    cur_percentage           = 0;
+
     time_interval            = BAT_LEVEL_GROWING_INTERVAL;
 #ifdef RGB_MATRIX_ENABLE
     r = g = b = 255;
@@ -113,7 +121,12 @@ void bat_level_animiation_update(void) {
             if (bat_percentage < 30) {
                 r = 255;
                 b = g = 0;
-            } else {
+            }
+            else if (bat_percentage < 70) {
+                r = g = 255;
+                b = 0;
+            }
+            else {
                 r = b = 0;
                 g     = 255;
             }
