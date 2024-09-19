@@ -599,6 +599,25 @@ __attribute__((weak)) void os_state_indicate(void) {
 #    endif
 }
 
+void set_bat_indicator_leds(){
+    uint8_t r, g, b;
+    uint8_t bat_percentage = battery_get_percentage();
+
+    if (bat_percentage < BAT_CRIT_PERCENTAGE) {
+        r = 255; b = g = 0;
+    }
+    else if (bat_percentage < BAT_WARN_PERCENTAGE) {
+        r = g = 255; b = 0;
+    }
+    else {
+        r = b = 0; g = 255;
+    }
+
+    for (uint8_t i = 0; i < bat_percentage / 10; i++)
+        rgb_matrix_set_color(bat_level_led_list[i], r, g, b);
+
+}
+
 bool LED_INDICATORS_KB(void) {
     if (get_transport() & TRANSPORT_WIRELESS) {
         /* Prevent backlight flash caused by key activities */
@@ -643,23 +662,8 @@ bool LED_INDICATORS_KB(void) {
                     SET_LED_OFF(bt_host_led_matrix_list[host_index - 1]);
                 last_host_index = host_index;
             }
-            // Boot Battery indicator here!
-            uint8_t r, g, b;
-            uint8_t bat_percentage = battery_get_percentage();
 
-            if (bat_percentage < 30) {
-                r = 255; b = g = 0;
-            }
-            else if (bat_percentage < 70) {
-                r = g = 255; b = 0;
-            }
-            else {
-                r = b = 0; g = 255;
-            }
-
-            for (uint8_t i = 0; i < bat_percentage / 10; i++)
-                rgb_matrix_set_color(bat_level_led_list[i], r, g, b);
-            ///
+            set_bat_indicator_leds();
 
             if (indicator_config.value & LED_ON) {
 

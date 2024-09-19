@@ -14,13 +14,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 #pragma once
+
 
 enum {
     BAT_NOT_CHARGING = 0,
     BAT_CHARGING,
     BAT_FULL_CHARGED,
 };
+
+#ifndef BAT_CRIT_PERCENTAGE
+#    define BAT_CRIT_PERCENTAGE 30
+#endif
+
+#ifndef BAT_WARN_PERCENTAGE
+#    define BAT_WARN_PERCENTAGE 60
+#endif
 
 #ifndef FULL_VOLTAGE_VALUE
 #    define FULL_VOLTAGE_VALUE 4100

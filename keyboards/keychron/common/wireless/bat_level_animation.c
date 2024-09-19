@@ -1,5 +1,6 @@
 
 #include "quantum.h"
+#include "battery.h"
 #include "wireless.h"
 #include "indicator.h"
 #include "lpm.h"
@@ -118,11 +119,11 @@ void bat_level_animiation_update(void) {
 
         case BAT_LVL_ANI_BLINK_OFF:
 #ifdef RGB_MATRIX_ENABLE
-            if (bat_percentage < 30) {
+            if (bat_percentage < BAT_CRIT_PERCENTAGE) {
                 r = 255;
                 b = g = 0;
             }
-            else if (bat_percentage < 70) {
+            else if (bat_percentage < BAT_WARN_PERCENTAGE) {
                 r = g = 255;
                 b = 0;
             }
