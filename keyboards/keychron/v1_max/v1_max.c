@@ -53,8 +53,6 @@ void keyboard_post_init_kb(void) {
 
     writePin(BAT_LOW_LED_PIN, BAT_LOW_LED_PIN_ON_STATE);
 
-    //keychron_wireless_show_bat_level();
-
     lkbt51_init(false);
     wireless_init();
 
