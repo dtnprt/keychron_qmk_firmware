@@ -85,7 +85,7 @@ void super_CAPS_finished (tap_dance_state_t *state, void *user_data) {
   tap_state.state = get_dance_state(state);
   switch (tap_state.state) {
     case SINGLE_TAP:
-        caps_word_on();
+        tap_code(KC_HOME);
         break;
     case SINGLE_HOLD:
         //layer_on(FN_LAYER_2);_______
@@ -105,7 +105,7 @@ void super_CAPS_reset (tap_dance_state_t *state, void *user_data) {
 
     switch (tap_state.state) {
         case SINGLE_TAP:
-            caps_word_off();
+            //caps_word_off();
             break;
         case SINGLE_HOLD:
             break;
@@ -169,7 +169,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXXXXXX,  KC_P1,    KC_P2,    KC_P3,    KC_P4,    KC_P5,    KC_P6,    KC_P7,    KC_P8,    KC_P9,    KC_P0,    XXXXXXX,  XXXXXXX,  XXXXXXX,            KC_UP,
         XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_WH_U,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_PGUP,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,                      KC_DOWN,
         _______,  KC_HOME,  KC_WH_L,  KC_WH_D,  KC_WH_R,  KC_HOME,  KC_LEFT,  KC_DOWN  ,KC_UP  ,  KC_RGHT,  KC_END ,  XXXXXXX,  XXXXXXX,  KC_PENT,            XXXXXXX,
-        XXXXXXX,  KC_NUBS,  XXXXXXX,  XXXXXXX,  KC_LCTL,  KC_LSFT,  XXXXXXX,  XXXXXXX,  KC_PGDN,  XXXXXXX,  KC_PDOT,  XXXXXXX,            XXXXXXX,  KC_PGUP,
+        XXXXXXX,  KC_NUBS,  XXXXXXX,  XXXXXXX,  KC_LCTL,  KC_LSFT,  XXXXXXX,  XXXXXXX,  KC_PGDN,  XXXXXXX,  KC_PDOT,  XXXXXXX,            KC_HOME,  KC_PGUP,
         XXXXXXX,  XXXXXXX,  XXXXXXX,                               LT(L_CAPS_2,KC_MS_BTN1),                           XXXXXXX,  KC_APP ,  XXXXXXX,  KC_HOME,  KC_PGDN,  KC_END
     ),
 
